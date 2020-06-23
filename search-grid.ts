@@ -8,24 +8,89 @@ import "@material/mwc-icon";
 export class SearchGrid extends LitElement {
   static styles = css`
     .container {
-      color: green;
-      border: 1px #b3b3b3 solid;
-      height: 200px;
-      border-top: 0px;
-      border-radius: 4px;
+
+      --mdc-list-side-padding: 30px;
+    }
+    [mwc-list-item]:not([twoline]) {
+      height: 40px;
+    }
+    [mwc-list-item][twoline] {
+      height: 60px;
+    }
+    .heading {
+      color: #ccc;
+    }
+    .header-icon {
+      --mdc-icon-size: 16px;
     }
   `;
 
   apps = [
-    { name: "Create Title", icon: "create" },
-    { name: "Open Title", icon: "launch" }
+    { name: "Create New Contract", icon: "create" },
+    { name: "Open Contract", icon: "launch" },
+    { name: "Copy Contract", icon: "file_copy" }
+  ];
+
+  recents = [{ name: "CBS", icon: "search" }, { name: "NBC", icon: "search" }];
+
+  items = [
+    { name: "2 Oceans", icon: "search", secondary: "No# 37845 10/1/2012 Active" },
+    { name: "Universal City", icon: "search", secondary: "No# 37463 10/1/2012 Inactive" }
   ];
 
   searchApps = () => {
     return html`
+      <div class="ml1 mt2 heading flex items-center">
+        <mwc-icon class="header-icon pr1">apps</mwc-icon>
+        <span>Apps</span>
+      </div>
       <mwc-list>
         ${repeat(
           this.apps,
+          item => item,
+          item =>
+            html`
+              <mwc-list-item graphic="icon">
+                <slot>${item.name}</slot>
+                <mwc-icon slot="graphic">${item.icon}</mwc-icon>
+              </mwc-list-item>
+            `
+        )}
+        <li divider padded role="separator"></li>
+      </mwc-list>
+    `;
+  };
+
+  searchItems = () => {
+    return html`
+      <div class="ml1 mt2 heading flex items-center">
+        <mwc-icon class="header-icon pr1">subject</mwc-icon>
+        <span>Contracts</span>
+      </div>
+      <mwc-list>
+        ${repeat(
+          this.items,
+          item => item,
+          item =>
+            html`
+              <mwc-list-item graphic="icon" twoline>
+                <slot>${item.name}</slot>
+                <span slot="secondary">${item.secondary}</span>
+                <mwc-icon slot="graphic">${item.icon}</mwc-icon>
+              </mwc-list-item>
+            `
+        )}
+        <li divider padded role="separator"></li>
+      </mwc-list>
+    `;
+  };
+
+  searchRecents = () => {
+    return html`
+      <div class="ml1 mt2 heading">Recent Searches</div>
+      <mwc-list>
+        ${repeat(
+          this.recents,
           item => item,
           item =>
             html`
@@ -47,7 +112,7 @@ export class SearchGrid extends LitElement {
         href="https://unpkg.com/basscss@8.0.2/css/basscss.min.css"
       />
       <div class="container p1">
-        ${this.searchApps()}
+        ${this.searchApps()} ${this.searchItems()} ${this.searchRecents()}
       </div>
     `;
   }

@@ -10,11 +10,11 @@ import "@material/mwc-icon";
 import "@material/mwc-list";
 import "@material/mwc-list/mwc-list-item.js";
 import "@material/mwc-menu";
-import './search-grid';
+import "./search-grid";
 
 const names = ["React", "Angular", "Vue"];
 
-let text = "Typescript";
+let text = "FAST";
 
 let cssClass = "";
 
@@ -36,9 +36,9 @@ const menu = (id: string) => {
   `;
 };
 
-const showMenu = (name) => {
+const showMenu = name => {
   const menu = document.getElementById(name.toLowerCase()) as any;
-  console.log(menu)
+  console.log(menu);
   menu.show();
 };
 
@@ -49,20 +49,19 @@ const onChange = (e: any) => {
 
 // Write TypeScript code!
 const appdev = () => html`
-  <mwc-textfield
-    .value=${text}
-    @input=${onChange}
-    placeholder="Search"
-    icon="search"
-    outlined
-    type="text"
-    fullwidth
-  ></mwc-textfield>
+  <div class="container">
+    <mwc-textfield
+      .value=${text}
+      @input=${onChange}
+      placeholder="Search"
+      icon="search"
+      
+      type="text"
+      fullwidth
+    ></mwc-textfield>
 
-  <search-grid></search-grid>
-
-
-
+    <search-grid></search-grid>
+  </div>
 `;
 
 function changeName() {
